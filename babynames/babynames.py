@@ -34,6 +34,35 @@ Suggested milestones for incremental development:
  -Fix main() to use the extract_names list
 """
 
+def utils_lines(filename):
+    f = open(filename, 'r')
+    lines = f.read()
+    f.close()
+    lines = lines #.split('\n')
+    return lines
+
+def utils_summary_file(filename):
+    f = open(filename, 'r')
+    lines = f.read()
+    f.close()
+    lines = lines #.split('\n')
+    return lines
+
+
+def utils_files(*filename_patterns):
+    import glob
+    filenames = []
+    for filename_pattern in filename_patterns:
+        filenames += glob.glob(filename_pattern)
+    return filenames
+
+
+# print(utils_files('baby1990.html'))
+# print(utils_files('baby19*.html'))
+# print(utils_files('baby2000.html'))
+# print(utils_files('baby20*.html'))
+# print(utils_files('baby19*.html','baby20*.html'))
+
 
 def extract_names(filename):
     """
@@ -42,6 +71,32 @@ def extract_names(filename):
     ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
     """
     # +++your code here+++
+    lines = utils_lines(filename)
+    #print('lines', lines)
+
+    # Extract the year and print it
+    m = re.search('(?<=Popularity in )\d{4}', lines)
+    year = m.group()
+    #print(year)
+
+    # Extract the names and rank numbers and just print them
+    names_and_rank = re.findall('(?<=<td>)\w+', lines)
+    names_data = dict()
+    for i in range(0,len(names_and_rank),3):
+        #print(names_and_rank[i:i+3])
+        # Get the names data into a dict and print it
+        names_data[names_and_rank[i]] = names_and_rank[i+1:i+3]
+    #print(names_data)
+
+    # Build the [year, 'name rank', ... ] list and print it
+    baby_names = [year]
+    for k, v in names_data.items():
+        name_rank_str = v[0] + ' ' + str(k)
+        baby_names.append(name_rank_str)
+
+    #print(baby_names)
+    print(sorted(baby_names))
+
     return
 
 
@@ -61,9 +116,18 @@ def main():
         summary = True
         del args[0]
 
-        # +++your code here+++
-        # For each filename, get the names, then either print the text output
-        # or write it to a summary file
+    # +++your code here+++
+    # For each filename, get the names, then either print the text output
+    # or write it to a summary file
+    print(utils_files(*args))
+
+    if summary:
+        for filename in args:
+            extract_names(filename)
+    else:
+        for filename in args:
+            extract_names(filename)
+
 
 
 if __name__ == '__main__':
