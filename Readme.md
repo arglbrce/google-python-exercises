@@ -5,6 +5,6 @@
 - [x] list2
 - [x] mimic
 - [x] wordcount
-- babynames
+- [x] babynames
 - logpuzzle
 - copyspecial
