@@ -7,4 +7,4 @@
 - [x] wordcount
 - [x] babynames
 - [x] logpuzzle
-- copyspecial
+- [x] copyspecial
