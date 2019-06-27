@@ -2,3 +2,6 @@
 summary-baby*.txt
 *.zip
 fooby
+.venv
+.vscode
+*.pyc
